@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import "../http_func.dart";
 
 class Friends {
+  // i know how to name variables
   final List<String> user;
   final List<String> requests;
   final List<String> sentRequests;
@@ -46,13 +47,17 @@ class AuthState extends ChangeNotifier {
     return true;
   }
 
-  Future<void> createAuth(String email, String password) async {
+  Future<dynamic> createAuth(String email, String password) async {
     var http = HttpFunc();
 
-    final response = http.createRequest(
+    final response = await http.createRequest(
         "/auth/login",
         "post",
         {"Content-Type": "application/json"},
-        jsonEncode({"email": email, "password": password}));
+        json.encode({"email": email, "password": password}));
+
+    final body = json.decode(response.body);
+
+    return body;
   }
 }
