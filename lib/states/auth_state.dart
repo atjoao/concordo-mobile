@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import "../http_func.dart";
 
 class Friends {
@@ -32,6 +33,10 @@ class AuthInfo {
   AuthInfo(this.token);
 }
 
+final authStateProvider = ChangeNotifierProvider<AuthState>((ref) {
+  return AuthState();
+});
+
 class AuthState extends ChangeNotifier {
   late AuthInfo authInfo;
   late UserInfo userInfo;
@@ -58,6 +63,27 @@ class AuthState extends ChangeNotifier {
 
     final body = json.decode(response.body);
 
-    return body;
+    switch (body['status']) {
+      case "MISSING_PARAMS":
+      case "INVALID_EMAIL":
+      case "INVALID_PASSWORD":
+      case "NOT_FOUND":
+        {
+          var data = {
+            'message': body["message"],
+            'status': body['status'],
+          };
+          return data;
+        }
+
+      case "COMPLETED":
+        {
+          authInfo.token = body['token'];
+          return true;
+        }
+
+      default:
+        return false;
+    }
   }
 }
