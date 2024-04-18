@@ -52,6 +52,11 @@ class AuthState extends ChangeNotifier {
     return true;
   }
 
+  void updateToken(String newToken) {
+    authInfo.token = newToken;
+    notifyListeners();
+  }
+
   Future<dynamic> createAuth(String email, String password) async {
     var http = HttpFunc();
 
@@ -78,7 +83,7 @@ class AuthState extends ChangeNotifier {
 
       case "COMPLETED":
         {
-          authInfo.token = body['token'];
+          updateToken(body['token']);
           return true;
         }
 

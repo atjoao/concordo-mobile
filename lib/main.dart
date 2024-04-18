@@ -1,4 +1,4 @@
-import 'package:concordo/pages/auth/home_auth.dart';
+import 'package:concordo/pages/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -18,7 +18,7 @@ class MainApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSwatch().copyWith(
         primary: const Color.fromARGB(255, 50, 50, 50),
       )),
-      home: const HomeAuth(),
+      home: const Home(),
     );
   }
 }
