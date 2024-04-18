@@ -5,6 +5,7 @@ void main() {
   runApp(const ProviderScope(child: MainApp()));
 }
 
+// todo make decision abt stuff here
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
 
