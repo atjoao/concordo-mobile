@@ -1,9 +1,8 @@
 import 'package:concordo/pages/home.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() {
-  runApp(const ProviderScope(child: MainApp()));
+  runApp(const MainApp());
 }
 
 // todo make decision abt stuff here
@@ -17,6 +16,7 @@ class MainApp extends StatelessWidget {
       theme: ThemeData(
           colorScheme: ColorScheme.fromSwatch().copyWith(
         primary: const Color.fromARGB(255, 50, 50, 50),
+        background: const Color(0xFF848484),
       )),
       home: const Home(),
     );

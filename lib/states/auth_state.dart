@@ -1,41 +1,16 @@
 import 'dart:convert';
 
+import 'package:concordo/models/user.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'package:shared_preferences/shared_preferences.dart';
 import "../http_func.dart";
-
-class Friends {
-  // i know how to name variables
-  final List<String> user;
-  final List<String> requests;
-  final List<String> sentRequests;
-
-  Friends(this.user, this.requests, this.sentRequests);
-}
-
-class UserInfo {
-  final String username;
-  final String email;
-  final String id;
-  final String descrim;
-  final String avatar;
-
-  final List<String> blockList;
-  final Friends friends;
-
-  UserInfo(this.username, this.email, this.id, this.descrim, this.avatar,
-      this.blockList, this.friends);
-}
 
 class AuthInfo {
   String token;
 
   AuthInfo(this.token);
 }
-
-final authStateProvider = ChangeNotifierProvider<AuthState>((ref) {
-  return AuthState();
-});
 
 class AuthState extends ChangeNotifier {
   late AuthInfo authInfo;
@@ -47,13 +22,17 @@ class AuthState extends ChangeNotifier {
     checkLogin();
   }
 
-  Future<bool> checkLogin() async {
+  bool checkLogin() {
     if (authInfo.token == "") return false;
     return true;
   }
 
-  void updateToken(String newToken) {
+  Future<void> updateToken(String newToken) async {
     authInfo.token = newToken;
+
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString("token", newToken);
+
     notifyListeners();
   }
 
