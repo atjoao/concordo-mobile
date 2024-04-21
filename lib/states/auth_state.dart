@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:concordo/models/user.dart';
@@ -19,12 +20,6 @@ class AuthState extends ChangeNotifier {
   AuthState() {
     authInfo = AuthInfo("");
     userInfo = UserInfo("", "", "", "", "", [], Friends([], [], []));
-    checkLogin();
-  }
-
-  bool checkLogin() {
-    if (authInfo.token == "") return false;
-    return true;
   }
 
   Future<void> updateToken(String newToken) async {
@@ -36,11 +31,23 @@ class AuthState extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<dynamic> createAuth(String email, String password) async {
+  Future<bool> checkToken() async {
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString("token");
+    if (token != null) {
+      authInfo.token = token;
+      return true;
+    }
+    return false;
+  }
+
+// i hate this type
+  FutureOr<Map<String, String>> createAuth(
+      String email, String password) async {
     var http = HttpFunc();
 
     final response = await http.createRequest(
-        "/auth/login",
+        "auth/login",
         "post",
         {"Content-Type": "application/json"},
         json.encode({"email": email, "password": password}));
@@ -53,21 +60,23 @@ class AuthState extends ChangeNotifier {
       case "INVALID_PASSWORD":
       case "NOT_FOUND":
         {
-          var data = {
+          return {
+            'error': 'true',
             'message': body["message"],
             'status': body['status'],
           };
-          return data;
         }
 
       case "COMPLETED":
         {
           updateToken(body['token']);
-          return true;
+          return {
+            'error': 'false',
+          };
         }
 
       default:
-        return false;
+        return {'error': 'true', 'message': 'Erro desconhecido'};
     }
   }
 }
