@@ -63,6 +63,9 @@ class _LoginPage extends State<LoginPage> {
             ),
             TextField(
               controller: _passwordController,
+              obscureText: true,
+              enableSuggestions: false,
+              autocorrect: false,
               decoration: const InputDecoration(
                 labelText: "Palavra-passe",
               ),

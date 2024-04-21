@@ -12,7 +12,7 @@ class MainPage extends StatelessWidget {
         final authState = Provider.of<AuthState>(context, listen: false);
         authState.logout();
       },
-      child: const Text("Main Page"),
+      child: const Text("Apagar token"),
     );
   }
 }
