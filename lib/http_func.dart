@@ -1,7 +1,7 @@
 import "package:http/http.dart" as http;
 
 class HttpFunc {
-  final String baseURL = "https://backconcordo.joao.lol";
+  final String baseURL = "https://backConcordo.joao.lol";
 
   Future<http.Response> createRequest(String endpoint, String method,
       Map<String, String>? headers, Object? body) async {

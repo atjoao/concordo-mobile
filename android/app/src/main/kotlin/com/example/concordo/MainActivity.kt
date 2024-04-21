@@ -1,4 +1,4 @@
-package com.example.concordo
+package com.example.Concordo
 
 import io.flutter.embedding.android.FlutterActivity
 

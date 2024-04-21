@@ -1,14 +1,15 @@
-import 'package:concordo/pages/home.dart';
-import 'package:concordo/states/auth_state.dart';
+import 'package:Concordo/pages/home.dart';
+import 'package:Concordo/states/auth_state.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  AuthState().checkToken();
+
+  final authState = AuthState();
 
   runApp(MultiProvider(providers: [
-    ChangeNotifierProvider(create: (context) => AuthState()),
+    ChangeNotifierProvider(create: (context) => authState),
   ], child: const MainApp()));
   //runApp(const MainApp());
 }

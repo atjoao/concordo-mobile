@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:concordo/models/user.dart';
+import 'package:Concordo/models/user.dart';
 import 'package:flutter/material.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
@@ -26,7 +26,16 @@ class AuthState extends ChangeNotifier {
     authInfo.token = newToken;
 
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setString("token", newToken);
+    prefs.setString("token", newToken.toString());
+
+    notifyListeners();
+  }
+
+  Future<void> logout() async {
+    authInfo.token = "";
+
+    final prefs = await SharedPreferences.getInstance();
+    prefs.remove("token");
 
     notifyListeners();
   }
@@ -34,6 +43,7 @@ class AuthState extends ChangeNotifier {
   Future<bool> checkToken() async {
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString("token");
+    print("token ${token}");
     if (token != null) {
       authInfo.token = token;
       return true;

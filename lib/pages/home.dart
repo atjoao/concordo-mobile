@@ -1,5 +1,6 @@
-import 'package:concordo/pages/auth/auth_page.dart';
-import 'package:concordo/states/auth_state.dart';
+import 'package:Concordo/pages/app/main_page.dart';
+import 'package:Concordo/pages/auth/auth_page.dart';
+import 'package:Concordo/states/auth_state.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -13,26 +14,30 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   bool authenticated = false;
 
+  late AuthState authState;
+
   @override
   void initState() {
     super.initState();
 
-    final authState = Provider.of<AuthState>(context, listen: false);
+    authState = Provider.of<AuthState>(context, listen: false);
+    authState.checkToken().then((value) {
+      setState(() {
+        authenticated = value;
+      });
+    });
+
     authState.addListener(() {
-      if (authState.authInfo.token != "") {
-        setState(() {
-          authenticated = true;
-        });
-      }
+      setState(() {
+        authenticated = authState.authInfo.token != "";
+      });
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: authenticated
-          ? const Text("Homeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee")
-          : const AuthPage(),
+      body: authenticated ? const MainPage() : const AuthPage(),
     );
   }
 }

@@ -1,4 +1,4 @@
-import 'package:concordo/states/auth_state.dart';
+import 'package:Concordo/states/auth_state.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -15,16 +15,17 @@ class _LoginPage extends State<LoginPage> {
   String _error = "";
   bool _loading = false;
 
+  late AuthState _authState;
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
+    _authState = Provider.of<AuthState>(context, listen: false);
 
-    final authState = Provider.of<AuthState>(context, listen: false);
-    authState.addListener(() {
-      if (authState.authInfo.token != "") {
+    _authState.addListener(() {
+      if (_authState.authInfo.token != "") {
         Navigator.pop(context);
       }
     });
@@ -34,6 +35,7 @@ class _LoginPage extends State<LoginPage> {
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
+    //_authState.dispose();
     super.dispose();
   }
 
@@ -47,7 +49,7 @@ class _LoginPage extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Entrar no concordo"),
+        title: const Text("Entrar no Concordo"),
       ),
       body: Form(
         child: Column(

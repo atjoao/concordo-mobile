@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:concordo/pages/auth/login_page.dart';
-import 'package:concordo/pages/auth/register_page.dart';
+import 'package:Concordo/pages/auth/login_page.dart';
+import 'package:Concordo/pages/auth/register_page.dart';
 
 class AuthPage extends StatelessWidget {
   const AuthPage({super.key});
