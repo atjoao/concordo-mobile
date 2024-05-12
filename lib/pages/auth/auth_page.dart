@@ -1,7 +1,7 @@
+import 'package:Concordo/pages/auth/components/login_comp.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:Concordo/pages/auth/login_page.dart';
-import 'package:Concordo/pages/auth/register_page.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_svg/svg.dart';
 
 class AuthPage extends StatelessWidget {
   const AuthPage({super.key});
@@ -10,18 +10,18 @@ class AuthPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Flex(
       direction: Axis.vertical,
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Column(
-          children: [
-            SvgPicture.asset(
-              "assets/svg/Concordo.svg",
-              semanticsLabel: "Concordo Logo",
-            ),
-            const Padding(
-              padding: EdgeInsets.symmetric(vertical: 25.0),
-              child: Text(
+        Expanded(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SvgPicture.asset(
+                "assets/svg/Concordo.svg",
+                semanticsLabel: "Concordo Logo",
+              ),
+              const Text(
                 'Concordo',
                 style: TextStyle(
                   color: Color.fromRGBO(255, 255, 255, 1),
@@ -29,64 +29,25 @@ class AuthPage extends StatelessWidget {
                   fontFamily: "ComicNeue",
                 ),
               ),
-            )
-          ],
+            ],
+          ),
         ),
-        Flex(
-          direction: Axis.vertical,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 50.0),
-              child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: ((context) => const LoginPage(
-                                error: "",
-                              ))),
-                    );
-                  },
-                  style: const ButtonStyle(
-                    foregroundColor:
-                        MaterialStatePropertyAll<Color>(Colors.black),
-                    backgroundColor: MaterialStatePropertyAll<Color>(
-                        Color.fromRGBO(200, 195, 195, 1)),
-                    shape: MaterialStatePropertyAll(
-                      RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(8)),
-                          side: BorderSide(color: Colors.black)),
-                    ),
-                  ),
-                  child: const Text("Entrar")),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 50.0),
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: ((context) => const RegisterPage())),
-                  );
-                },
-                style: const ButtonStyle(
-                  foregroundColor:
-                      MaterialStatePropertyAll<Color>(Colors.black),
-                  backgroundColor: MaterialStatePropertyAll<Color>(
-                      Color.fromRGBO(200, 195, 195, 1)),
-                  shape: MaterialStatePropertyAll(
-                    RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(8)),
-                        side: BorderSide(color: Colors.black)),
-                  ),
-                ),
-                child: const Text("Criar conta"),
+        Expanded(
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: const Color.fromRGBO(0, 0, 0, 1),
+                width: 2.0,
+              ),
+              color: const Color.fromRGBO(165, 165, 165, 1),
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(20.0),
+                topRight: Radius.circular(20.0),
               ),
             ),
-          ],
-        ),
+            child: const LoginComp(),
+          ),
+        )
       ],
     );
   }
