@@ -1,4 +1,5 @@
 import 'package:Concordo/pages/auth/enum.dart';
+import 'package:Concordo/pages/auth/functions/verify_forms.dart';
 import 'package:flutter/material.dart';
 
 class LoginComp extends StatefulWidget {
@@ -106,7 +107,11 @@ class _LoginComp extends State<LoginComp> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     ElevatedButton(
-                      onPressed: () => {},
+                      onPressed: () => VerifyForm().formLoginProcess(
+                        context,
+                        _emailController.text,
+                        _passwordController.text,
+                      ),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color.fromRGBO(177, 169, 169, 1),
                         shape: RoundedRectangleBorder(
