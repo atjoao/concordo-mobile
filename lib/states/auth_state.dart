@@ -56,37 +56,41 @@ class AuthState extends ChangeNotifier {
       String email, String password) async {
     var http = HttpFunc();
 
-    final response = await http.createRequest(
-        "auth/login",
-        "post",
-        {"Content-Type": "application/json"},
-        json.encode({"email": email, "password": password}));
+    try {
+      final response = await http.createRequest(
+          "auth/login",
+          "post",
+          {"Content-Type": "application/json"},
+          json.encode({"email": email, "password": password}));
 
-    final body = json.decode(response.body);
+      final body = json.decode(response.body);
 
-    switch (body['status']) {
-      case "MISSING_PARAMS":
-      case "INVALID_EMAIL":
-      case "INVALID_PASSWORD":
-      case "NOT_FOUND":
-        {
-          return {
-            'error': 'true',
-            'message': body["message"],
-            'status': body['status'],
-          };
-        }
+      switch (body['status']) {
+        case "MISSING_PARAMS":
+        case "INVALID_EMAIL":
+        case "INVALID_PASSWORD":
+        case "NOT_FOUND":
+          {
+            return {
+              'error': 'true',
+              'message': body["message"],
+              'status': body['status'],
+            };
+          }
 
-      case "COMPLETED":
-        {
-          updateToken(body['token']);
-          return {
-            'error': 'false',
-          };
-        }
+        case "COMPLETED":
+          {
+            updateToken(body['token']);
+            return {
+              'error': 'false',
+            };
+          }
 
-      default:
-        return {'error': 'true', 'message': 'Erro desconhecido'};
+        default:
+          return {'error': 'true', 'message': 'Erro desconhecido'};
+      }
+    } catch (e) {
+      return {'error': 'true', 'message': e.toString()};
     }
   }
 }

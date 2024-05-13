@@ -1,6 +1,8 @@
 import 'dart:async';
 
+import 'package:Concordo/states/auth_state.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
 
 class VerifyForm {
@@ -10,20 +12,57 @@ class VerifyForm {
     multiLine: false,
   );
 
-  Future<void> formLoginProcess(
-      BuildContext buildContext, String email, String password) async {
+  Future<void> formLoginProcess(BuildContext buildContext, String email,
+      String password, void Function(bool) setLoading) async {
     final Tuple2<Future<bool>, Future<String>> formLoginResult =
         await formLogin(email, password);
 
     final String r = await formLoginResult.item2;
     final bool valido = await formLoginResult.item1;
 
-    if (valido) {
-      print("imagina que faz o login xd");
-    } else {
-      if (buildContext.mounted) {
+    setLoading(true);
+
+    if (buildContext.mounted) {
+      if (valido) {
+        final authState = Provider.of<AuthState>(buildContext, listen: false);
+        final result = await authState.createAuth(email, password);
+        if (result['error'] != 'true') {
+          setLoading(false);
+        } else {
+          if (!buildContext.mounted) return;
+          showDialog(
+            context: buildContext,
+            barrierDismissible: false,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: const Text("Aviso"),
+                content: Text(
+                    result['message'] ?? "Não foi possível determinar o erro"),
+                backgroundColor: const Color.fromRGBO(217, 217, 217, 1),
+                surfaceTintColor: const Color.fromRGBO(217, 217, 217, 1),
+                actions: [
+                  ElevatedButton(
+                    onPressed: () {
+                      setLoading(false);
+                      Navigator.of(context).pop();
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color.fromRGBO(201, 68, 68, 1),
+                    ),
+                    child: const Text(
+                      "Ok",
+                      style: TextStyle(color: Color.fromRGBO(255, 255, 255, 1)),
+                    ),
+                  ),
+                ],
+              );
+            },
+          );
+        }
+      } else {
         showDialog(
           context: buildContext,
+          barrierDismissible: false,
           builder: (BuildContext context) {
             return AlertDialog(
               title: const Text("Aviso"),
@@ -33,6 +72,7 @@ class VerifyForm {
               actions: [
                 ElevatedButton(
                   onPressed: () {
+                    setLoading(false);
                     Navigator.of(context).pop();
                   },
                   style: ElevatedButton.styleFrom(
@@ -79,7 +119,7 @@ class VerifyForm {
 
     return Tuple2(
       Future.value(true),
-      Future.value("xd"),
+      Future.value(""),
     );
   }
 }

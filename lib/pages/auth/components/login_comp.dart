@@ -14,6 +14,7 @@ class LoginComp extends StatefulWidget {
 class _LoginComp extends State<LoginComp> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  bool loading = false;
 
   @override
   void dispose() {
@@ -25,6 +26,12 @@ class _LoginComp extends State<LoginComp> {
   @override
   void initState() {
     super.initState();
+  }
+
+  void setLoading(bool value) {
+    setState(() {
+      loading = value;
+    });
   }
 
   @override
@@ -107,11 +114,16 @@ class _LoginComp extends State<LoginComp> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     ElevatedButton(
-                      onPressed: () => VerifyForm().formLoginProcess(
-                        context,
-                        _emailController.text,
-                        _passwordController.text,
-                      ),
+                      onPressed: () {
+                        if (!loading) {
+                          VerifyForm().formLoginProcess(
+                            context,
+                            _emailController.text,
+                            _passwordController.text,
+                            setLoading,
+                          );
+                        }
+                      },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color.fromRGBO(177, 169, 169, 1),
                         shape: RoundedRectangleBorder(
@@ -122,7 +134,13 @@ class _LoginComp extends State<LoginComp> {
                           width: 1.0,
                         ),
                       ),
-                      child: const Text("Login"),
+                      child: loading
+                          ? const SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: CircularProgressIndicator(),
+                            )
+                          : const Text("Login"),
                     ),
                     const SizedBox(
                       height: 10.0,
