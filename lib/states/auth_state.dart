@@ -43,7 +43,7 @@ class AuthState extends ChangeNotifier {
   Future<bool> checkToken() async {
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString("token");
-    print("token ${token}");
+    print("token $token");
     if (token != null) {
       authInfo.token = token;
       return true;

@@ -1,10 +1,27 @@
 import 'package:Concordo/pages/auth/components/login_comp.dart';
+import 'package:Concordo/pages/auth/components/register_comp.dart';
+import 'package:Concordo/pages/auth/enum.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 
-class AuthPage extends StatelessWidget {
+class AuthPage extends StatefulWidget {
+  //final AuthForm authForm = AuthForm.login;
+
   const AuthPage({super.key});
+
+  @override
+  State<AuthPage> createState() => _AuthPage();
+}
+
+class _AuthPage extends State<AuthPage> {
+  AuthForm _currentForm = AuthForm.login;
+
+  void _changeForm(AuthForm newForm) {
+    setState(() {
+      _currentForm = newForm;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +62,9 @@ class AuthPage extends StatelessWidget {
                 topRight: Radius.circular(20.0),
               ),
             ),
-            child: const LoginComp(),
+            child: _currentForm == AuthForm.login
+                ? LoginComp(changeForm: _changeForm)
+                : RegisterComp(changeForm: _changeForm),
           ),
         )
       ],
