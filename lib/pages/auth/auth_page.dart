@@ -6,7 +6,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 
 class AuthPage extends StatefulWidget {
-  //final AuthForm authForm = AuthForm.login;
+  final AuthForm authForm = AuthForm.login;
 
   const AuthPage({super.key});
 
@@ -15,7 +15,13 @@ class AuthPage extends StatefulWidget {
 }
 
 class _AuthPage extends State<AuthPage> {
-  AuthForm _currentForm = AuthForm.login;
+  late AuthForm _currentForm;
+
+  @override
+  void initState() {
+    super.initState();
+    _currentForm = widget.authForm;
+  }
 
   void _changeForm(AuthForm newForm) {
     setState(() {
