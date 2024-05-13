@@ -4,7 +4,11 @@ import 'package:flutter/material.dart';
 class RegisterComp extends StatelessWidget {
   final void Function(AuthForm) changeForm;
 
-  const RegisterComp({super.key, required this.changeForm});
+  RegisterComp({super.key, required this.changeForm});
+
+  final _usernameController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +18,7 @@ class RegisterComp extends StatelessWidget {
           minHeight: MediaQuery.of(context).size.height * 0.5,
         ),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 25.0),
+          padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 15.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -28,7 +32,7 @@ class RegisterComp extends StatelessWidget {
                 ),
               ),
               TextField(
-                keyboardType: TextInputType.emailAddress,
+                controller: _usernameController,
                 decoration: InputDecoration(
                   isDense: true,
                   filled: true,
@@ -54,6 +58,7 @@ class RegisterComp extends StatelessWidget {
                 ),
               ),
               TextField(
+                controller: _emailController,
                 keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
                   isDense: true,
@@ -80,6 +85,7 @@ class RegisterComp extends StatelessWidget {
                 ),
               ),
               TextField(
+                controller: _passwordController,
                 obscureText: true,
                 decoration: InputDecoration(
                   isDense: true,
@@ -112,8 +118,13 @@ class RegisterComp extends StatelessWidget {
                     ElevatedButton(
                       onPressed: () {},
                       style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color.fromRGBO(177, 169, 169, 1),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20.0),
+                        ),
+                        side: const BorderSide(
+                          color: Color.fromRGBO(0, 0, 0, 1),
+                          width: 1.0,
                         ),
                       ),
                       child: const Text("Registar"),
@@ -127,7 +138,7 @@ class RegisterComp extends StatelessWidget {
                       },
                       child: const Text(
                         'Tens conta? Faz login!',
-                        key: Key("create-account"),
+                        key: Key("login-account"),
                         style: TextStyle(
                           color: Color.fromRGBO(0, 0, 0, 1),
                           fontSize: 12.0,

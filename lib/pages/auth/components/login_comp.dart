@@ -1,10 +1,30 @@
 import 'package:Concordo/pages/auth/enum.dart';
 import 'package:flutter/material.dart';
 
-class LoginComp extends StatelessWidget {
+class LoginComp extends StatefulWidget {
   final void Function(AuthForm) changeForm;
 
   const LoginComp({super.key, required this.changeForm});
+
+  @override
+  State<LoginComp> createState() => _LoginComp();
+}
+
+class _LoginComp extends State<LoginComp> {
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +48,7 @@ class LoginComp extends StatelessWidget {
                 ),
               ),
               TextField(
+                controller: _emailController,
                 keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
                   isDense: true,
@@ -54,6 +75,7 @@ class LoginComp extends StatelessWidget {
                 ),
               ),
               TextField(
+                controller: _passwordController,
                 obscureText: true,
                 decoration: InputDecoration(
                   isDense: true,
@@ -84,10 +106,15 @@ class LoginComp extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () => {},
                       style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color.fromRGBO(177, 169, 169, 1),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20.0),
+                        ),
+                        side: const BorderSide(
+                          color: Color.fromRGBO(0, 0, 0, 1),
+                          width: 1.0,
                         ),
                       ),
                       child: const Text("Login"),
@@ -97,7 +124,7 @@ class LoginComp extends StatelessWidget {
                     ),
                     GestureDetector(
                       onTap: () {
-                        changeForm(AuthForm.register);
+                        widget.changeForm(AuthForm.register);
                       },
                       child: const Text(
                         'Sem conta? Crie uma',
